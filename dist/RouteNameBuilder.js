@@ -13,18 +13,6 @@ const testPath = (path) => {
         throw `Invalid path name detected: ${path}. Valid characters: "a-z A-Z 0-9 _ - ."`;
     }
 };
-const buildInterface = (obj, stream, indentLevel = 0) => {
-    Object.keys(obj).forEach((key) => {
-        if (typeof (obj[key]) === 'string') {
-            stream.write(`${'\t'.repeat(indentLevel) + key}: string;\n`);
-        }
-        else {
-            stream.write(`${'\t'.repeat(indentLevel) + key}: {\n`);
-            buildInterface(obj[key], stream, indentLevel + 1);
-            stream.write(`${'\t'.repeat(indentLevel)}};\n`);
-        }
-    });
-};
 const buildDirectory = (paths, dir, subDir) => {
     testPath(dir.path);
     const fullPath = [...paths, dir.path].join('/');
@@ -49,11 +37,8 @@ const create = (configPath, filePath = 'Directory.ts') => {
     try {
         fileStream.write('/* this file was auto-generated - do not edit directly */\n');
         fileStream.write('/* eslint-disable */\n\n');
-        fileStream.write('interface IDirectoryTree {\n');
-        buildInterface(directory, fileStream, 1);
         const json = util_1.default.inspect(directory, false, 30);
-        fileStream.write('}\n\n');
-        fileStream.write(`const directory: IDirectoryTree = ${json};\n\nexport default directory;\n`);
+        fileStream.write(`const directory = ${json} as const;\n\nexport default directory;\n`);
         fileStream.end(() => console.log('Successfully created the file.'));
     }
     catch (e) {
