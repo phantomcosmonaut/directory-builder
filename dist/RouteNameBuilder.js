@@ -47,6 +47,7 @@ const create = (configPath, filePath = 'Directory.ts') => {
     const directoryTreeFileName = filePath;
     const fileStream = fs_1.default.createWriteStream(directoryTreeFileName);
     try {
+        fileStream.write('/* this file was auto-generated - do not edit directly */\n');
         fileStream.write('/* eslint-disable */\n\n');
         fileStream.write('interface IDirectoryTree {\n');
         buildInterface(directory, fileStream, 1);
