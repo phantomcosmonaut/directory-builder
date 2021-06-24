@@ -1,0 +1,25 @@
+directory:
+  - path: "welcome"
+
+  - path: "consumer-data"
+    dirs:
+      - path: "name"
+      - path: "gender"
+      - path: "address"
+        dirs:
+          - path: "home"
+          - path: 'garaging'
+            dirs:
+              - path: 'test'
+
+  - path: 'vehicle-data'
+    dirs:
+      - path: 'vehicle-edit'
+        dirs:
+          - path: '{vehicleId}'
+            dirs:
+              - path: 'delete'
+              - path: 'edit'
+                dirs:
+                  - path: 'year'
+

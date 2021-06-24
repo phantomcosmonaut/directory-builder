@@ -1,1 +1,1 @@
-export declare const create: (configPath: string, filePath?: string | undefined) => void;
+export declare const create: (configPath: string, filePath?: string) => void;

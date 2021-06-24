@@ -21,7 +21,7 @@ const buildInterface = (obj, stream, indentLevel = 0) => {
         else {
             stream.write(`${'\t'.repeat(indentLevel) + key}: {\n`);
             buildInterface(obj[key], stream, indentLevel + 1);
-            stream.write(`${'\t'.repeat(indentLevel)}},\n`);
+            stream.write(`${'\t'.repeat(indentLevel)}};\n`);
         }
     });
 };
@@ -39,20 +39,21 @@ const buildDirectory = (paths, dir, subDir) => {
         dir.dirs.forEach((d) => buildDirectory([...paths, dir.path], d, subDir[propName]));
     }
 };
-const create = (configPath, filePath) => {
+const create = (configPath, filePath = 'Directory.ts') => {
     const ymlFile = fs_1.default.readFileSync(configPath, "utf-8");
     const config = yaml_1.default.parse(ymlFile);
     const directory = { root: '/' };
     config.directory.forEach((dir) => buildDirectory([''], dir, directory));
-    const directoryTreeFileName = filePath ?? 'Directory.ts';
+    const directoryTreeFileName = filePath;
     const fileStream = fs_1.default.createWriteStream(directoryTreeFileName);
     try {
+        fileStream.write('/* eslint-disable */\n\n');
         fileStream.write('interface IDirectoryTree {\n');
         buildInterface(directory, fileStream, 1);
-        const json = util_1.default.inspect(directory);
+        const json = util_1.default.inspect(directory, false, 30);
         fileStream.write('}\n\n');
         fileStream.write(`const directory: IDirectoryTree = ${json};\n\nexport default directory;\n`);
-        fileStream.end(() => console.log('Successfully created directory.'));
+        fileStream.end(() => console.log('Successfully created the file.'));
     }
     catch (e) {
         fileStream.close();

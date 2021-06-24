@@ -4,9 +4,8 @@
   "description": "builds directory trees for routing enabled SPAs",
   "type": "commonjs",
   "scripts": {
-    "test": "test",
     "build": "tsc",
-    "start": "tsc && node ./dist/index.js ./src/directory.config.yml ./directory.ts"
+    "test": "tsc && node ./dist/index.js ./test/directory.config.yml ./temp/directory.ts"
   },
   "author": "Brennan Bugbee",
   "license": "ISC",
