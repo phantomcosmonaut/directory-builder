@@ -1,1 +1,1 @@
-export declare const buildPath: (fullPath: string, params: Array<string>) => string | never;
+export declare const buildPath: (fullPath: string, ...params: Array<string>) => string | never;
