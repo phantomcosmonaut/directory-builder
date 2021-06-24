@@ -16,7 +16,7 @@ directory:
     dirs:
       - path: 'vehicle-edit'
         dirs:
-          - path: '{vehicleId}'
+          - path: ':vehicleId'
             dirs:
               - path: 'delete'
               - path: 'edit'

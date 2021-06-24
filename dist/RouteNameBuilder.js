@@ -8,7 +8,7 @@ const yaml_1 = __importDefault(require("yaml"));
 const fs_1 = __importDefault(require("fs"));
 const util_1 = __importDefault(require("util"));
 const testPath = (path) => {
-    const validPath = /^[\w-.{}]{1,100}$/g;
+    const validPath = /^[\w-.:]{1,100}$/g;
     if (!validPath.test(path)) {
         throw `Invalid path name detected: ${path}. Valid characters: "a-z A-Z 0-9 _ - ."`;
     }
@@ -29,7 +29,7 @@ const buildDirectory = (paths, dir, subDir) => {
     testPath(dir.path);
     const fullPath = [...paths, dir.path].join('/');
     const propName = dir.path
-        .replace(/[{}]/g, '')
+        .replace(/[:]/g, '')
         .replace(/\./g, '-')
         .split('-')
         .reduce((prev, curr) => prev + curr[0].toLocaleUpperCase() + curr.substr(1));
