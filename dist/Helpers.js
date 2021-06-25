@@ -9,7 +9,7 @@ const buildPath = (fullPath, ...params) => {
     params.reverse();
     return fullPath
         .split('/')
-        .map((section) => section.startsWith(':') ? params.pop() ?? '' : section)
+        .map((section) => section.startsWith(':') ? params.pop() || '' : section)
         .join('/');
 };
 exports.buildPath = buildPath;

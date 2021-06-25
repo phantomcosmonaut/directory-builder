@@ -35,7 +35,7 @@ const create = (configPath, filePath = 'Directory.ts') => {
     const directoryTreeFileName = filePath;
     const fileStream = fs_1.default.createWriteStream(directoryTreeFileName);
     try {
-        fileStream.write('/* this file was auto-generated - do not edit directly */\n');
+        fileStream.write('/* this file was generated using directory-builder - do not edit directly */\n');
         fileStream.write('/* eslint-disable */\n\n');
         const json = util_1.default.inspect(directory, false, 30);
         fileStream.write(`const directory = ${json} as const;\n\nexport default directory;\n`);

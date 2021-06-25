@@ -1,6 +1,6 @@
 {
   "name": "@bugbeeb/directory-builder",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "builds directory trees for routing enabled SPAs",
   "type": "commonjs",
   "scripts": {
