@@ -1,0 +1,6 @@
+/* this file was generated using directory-builder - do not edit directly */
+/* eslint-disable */
+
+const directory = {{ obj }} as const;
+
+export default directory;

@@ -31,20 +31,22 @@ const create = (configPath, directoryFolder = '.') => {
     if (!fs_1.default.existsSync(directoryFolder)) {
         fs_1.default.mkdirSync(directoryFolder);
     }
-    const ymlFile = fs_1.default.readFileSync(configPath, "utf-8");
+    const ymlFile = fs_1.default.readFileSync(configPath, 'utf-8');
     const config = yaml_1.default.parse(ymlFile);
     const directory = { rootPath: '/' };
     config.directory.forEach((dir) => buildDirectory([''], dir, directory));
-    const fileStream = fs_1.default.createWriteStream(directoryFolder + '/directory.ts');
+    const template = fs_1.default.readFileSync(`${__dirname}/../templates/template.txt`, 'utf-8');
+    const output = template.replace('{{ obj }}', util_1.default.inspect(directory, false, 30));
+    let fileStream;
     try {
-        fileStream.write('/* this file was generated using directory-builder - do not edit directly */\n');
-        fileStream.write('/* eslint-disable */\n\n');
-        const json = util_1.default.inspect(directory, false, 30);
-        fileStream.write(`const directory = ${json} as const;\n\nexport default directory;\n`);
+        fileStream = fs_1.default.createWriteStream(directoryFolder + '/directory.ts');
+        fileStream.write(output);
         fileStream.end(() => console.log('Successfully created the file.'));
     }
     catch (e) {
-        fileStream.close();
+        if (fileStream) {
+            fileStream.close();
+        }
         fs_1.default.unlink(directoryFolder, () => console.log('An error occurred during file creation.\n', e));
         return;
     }
