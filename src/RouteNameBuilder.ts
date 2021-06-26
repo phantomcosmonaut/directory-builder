@@ -38,16 +38,18 @@ const buildDirectory = (paths: Array<string>, dir: IDirectory, subDir: Record<st
     }
 };
 
-export const create = (configPath: string, filePath: string = 'Directory.ts'): void => {
+export const create = (configPath: string, directoryFolder: string = '.'): void => {
+    if (!fs.existsSync(directoryFolder)) {
+        fs.mkdirSync(directoryFolder);
+    }
+
     const ymlFile = fs.readFileSync(configPath, "utf-8");
     const config = YAML.parse(ymlFile) as IConfig;
     
-    const directory = { root: '/' };
+    const directory = { rootPath: '/' };
     config.directory.forEach((dir: IDirectory) => buildDirectory([''], dir, directory));
     
-    const directoryTreeFileName = filePath;
-
-    const fileStream = fs.createWriteStream(directoryTreeFileName);
+    const fileStream = fs.createWriteStream(directoryFolder + '/directory.ts');
 
     try {
         fileStream.write('/* this file was generated using directory-builder - do not edit directly */\n');
@@ -58,7 +60,7 @@ export const create = (configPath: string, filePath: string = 'Directory.ts'): v
     }
     catch (e) {
         fileStream.close();
-        fs.unlink(directoryTreeFileName, () => console.log('An error occurred during file creation.\n', e));
+        fs.unlink(directoryFolder, () => console.log('An error occurred during file creation.\n', e));
         return;
     }
 };
