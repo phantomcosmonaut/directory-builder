@@ -1,5 +1,5 @@
 import YAML from 'yaml';
-import fs, { WriteStream } from 'fs';
+import fs from 'fs';
 import util from 'util';
 
 interface IDirectory {
